@@ -5,7 +5,6 @@ editor: visual
 ---
 
 ```{r}
-#| results: hide 
 library(tidyverse) 
 library(ggplot2)
 ```
@@ -15,12 +14,12 @@ library(ggplot2)
 First, I opened up the dataset and explored the dataset.
 
 ```{r}
-
+#| results: hide 
 anscombe_quartet= readRDS("/Users/chenshin/Desktop/Longitudinal_Data_Analysis_Practical/week_5/week5/anscombe quartet.rds")
 
 str(anscombe_quartet) 
 
-anscombe_quartet %>% 
+result1 <- anscombe_quartet %>% 
   group_by(dataset) %>% 
   summarise(
     mean_x    = mean(x),
@@ -35,6 +34,10 @@ anscombe_quartet %>%
 
 str() tells us the type of function it is, ie character, number, etc.
 
+```{r}
+knitr::kable(result1, digits=2, caption="Table 1: Anscombe Quartet Descriptive Statistics") 
+```
+
 The summary statistics tell us that the mean of x and y are the same for all of the datasets. They also have the same correlation between x and y of 0.816, meaning that x and y are highly correlated. This tells us that the range is pretty similar for the first three datasets, but the fourth one has a higher range. the fourth one has a very high y.
 
 Next, I plotted the datasets.
@@ -45,8 +48,6 @@ Next, I plotted the datasets.
   geom_smooth(method = "lm",formula = "y ~ x") +
   facet_wrap(~dataset) 
 ```
-
-![](images/Rplot.png){fig-align="center" width="5in"}
 
 The plots tell us that the four datasets are very different from each other, which was obscured by the summary statistics. The first dataset is pretty scattered although there does seem to be a trend upwards and following a slight linear pattern. Dataset two shows a more quadratic relationship. Dataset 3 generally follows a linear trend but this is skewed by a clear outlier. Finally, dataset four is a straight line of the datapoints, and there is one outlier. The true patterns could only be seen with plotting the datasets.
 
@@ -63,6 +64,7 @@ datasaurus_dozen = readRDS("/Users/chenshin/Desktop/Longitudinal_Data_Analysis_P
 First, I explored the different datasets in Datasaurus, and explored summary and descriptive statistics.
 
 ```{r}
+#| results: hide 
 result <- datasaurus_dozen %>% 
   group_by(dataset) %>% 
   summarise( mean_x = mean(x), 
@@ -79,11 +81,10 @@ There are 13 different shapes, and the mean of all xs for each shape and ys is t
 This is depicted in a table below:
 
 ```{r}
-knitr::kable(result, digits=2, caption="Table 1: Datasaurus Descriptive Statistics") 
+knitr::kable(result, digits=2, caption="Table 2: Datasaurus Descriptive Statistics") 
 ```
 
 ```{r}
+#| results: hide 
 ggplot(datasaurus_dozen, aes(x=x,y=y)) + geom_point() + geom_smooth(method = "lm",formula = "y ~ x") + facet_wrap(~dataset) 
 ```
-
-![](images/fa2ad964-28b5-448b-85c6-2ca85ef713e9.png){fig-align="center" width="8.39in"}
