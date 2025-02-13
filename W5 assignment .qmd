@@ -1,0 +1,81 @@
+---
+title: "W5assignment"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list=ls()) 
+library(tidyverse) 
+library(ggplot2)
+```
+
+## [**Problem 1: Anscombe (1973) Dataset:**]{.underline}
+
+First, I explored the dataset.
+
+```{r}
+anscombe_quartet = readRDS("anscombe quartet.rds") 
+str(anscombe_quartet) 
+
+anscombe_quartet %>% 
+  group_by(dataset) %>% 
+  summarise(
+    mean_x    = mean(x),
+    mean_y    = mean(y),
+    min_x     = min(x),
+    min_y     = min(y),
+    max_x     = max(x),
+    max_y     = max(y),
+    crrltn    = cor(x, y)
+  ) 
+```
+
+str() tells us the type of function it is, ie character, number, etc.
+
+The summary statistics tell us that the mean of x and y are the same for all of the datasets. They also have the same correlation between x and y of 0.816, meaning that x and y are highly correlated. This tells us that the range is pretty similar for the first three datasets, but the fourth one has a higher range. the fourth one has a very high y.
+
+Next, I plotted the datasets.
+
+```{r}
+ ggplot(anscombe_quartet, aes(x=x,y=y)) +
+  geom_point() + 
+  geom_smooth(method = "lm",formula = "y ~ x") +
+  facet_wrap(~dataset) 
+```
+
+![](images/Rplot.png){fig-align="center" width="5in"}
+
+The plots tell us that the four datasets are very different from each other, which was obscured by the summary statistics. The first dataset is pretty scattered although there does seem to be a trend upwards and following a slight linear pattern. Dataset two shows a more quadratic relationship. Dataset 3 generally follows a linear trend but this is skewed by a clear outlier. Finally, dataset four is a straight line of the datapoints, and there is one outlier. The true patterns could only be seen with plotting the datasets.
+
+Linear regression would not be an appropriate statistical model to analyze the x-y relationship, because there is not a linear pattern for each one. It would only be appropriate for dataset 3.
+
+The four datasets are extremely different. Trying to fit them into a linear model would not be appropriate, and running a correlation (all the same 0.81) does not show the proper relationships between x and y variables.
+
+## [**Problem 2: Datasaurus Dataset:**]{.underline} 
+
+```{r}
+datasaurus_dozen = readRDS("datasaurus_dozen.rds") 
+```
+
+First, I explored the different datasets in Datasaurus, and explored summary and descriptive statistics.
+
+```{r}
+
+```
+
+datasaurus_dozen %\>% group_by(dataset) %\>% summarise( mean_x = mean(x), mean_y = mean(y), min_x = min(x), min_y = min(y), max_x = max(x), max_y = max(y), crrltn = cor(x, y) )
+
+# print descriptive statistics and make a nicely formatted table
+
+There are 13 different shapes. The mean of each variable is the same, they vary in range. The correlation of the variables is -0.06 for each of them.
+
+# calculate the correlations for x and y
+
+The correlations for all of them are -0.06, meaning there is no correlation between x and y. None of them have a linear correlation between x and y variables.
+
+# Plot their relationships including the line of best fit.
+
+ggplot(datasaurus_dozen, aes(x=x,y=y)) + geom_point() + geom_smooth(method = "lm",formula = "y \~ x") + facet_wrap(\~dataset)
+
+# Save the plot 
